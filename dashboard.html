@@ -1,1 +1,455 @@
-# tefa
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Dashboard TeFa MPLB</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .sidebar {
+            width: 70px;
+            transition: width 0.3s ease;
+        }
+        
+        .sidebar:hover {
+            width: 255px;
+        }
+        
+        .sidebar:hover .nav-label {
+            opacity: 1;
+        }
+        
+        .nav-label {
+            transition: opacity 0.3s ease, margin 0.3s ease;
+            opacity: 0;
+            white-space: nowrap;
+            margin-left: 0;
+        }
+        
+        .sidebar:hover .nav-label {
+            opacity: 1;
+            margin-left: 0.25rem;
+            /* biar muncul smooth */
+        }
+        /* Samakan margin kiri untuk submenu */
+        
+        .sidebar nav .submenu {
+            padding-left: 2.5rem;
+            /* pl-10 sama dengan 2.5rem */
+        }
+        /* Samakan tinggi menu utama dan submenu */
+        
+        .sidebar nav div.flex.items-center {
+            min-height: 44px;
+            /* Set tinggi konsisten */
+            padding-top: 0.5rem;
+            /* py-2 = 0.5rem */
+            padding-bottom: 0.5rem;
+        }
+        /* Submenu item styling (biar rata dan enak dibaca) */
+        
+        .sidebar nav .submenu div {
+            padding-top: 0.25rem;
+            /* py-1 */
+            padding-bottom: 0.25rem;
+            padding-left: 0.25rem;
+            /* agar tidak mepet kiri */
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 font-sans max-w-screen">
+    <div class="flex min-h-screen">
+
+        <!-- Sidebar -->
+        <aside class="bg-white shadow-lg sidebar transition-all duration-300 overflow-hidden">
+            <div class="h-full flex flex-col p-6">
+                <nav class="flex flex-col space-y-1 mt-[30px] text-sm text-gray-700">
+
+                    <!-- Dashboard -->
+                    <div class="flex items-center px-3 py-2 hover:bg-indigo-50 rounded cursor-pointer text-gray-600">
+                        <i data-lucide="home" class="w-5 h-5 mr-3 flex-shrink-0"></i>
+                        <span class="nav-label inline-block overflow-hidden transition-all duration-300">Dashboard</span>
+                    </div>
+
+                    <!-- Penjualan -->
+                    <div>
+                        <div class="flex items-center px-3 py-2 hover:bg-indigo-50 rounded cursor-pointer text-purple-600" onclick="toggleSubmenu('penjualan-submenu')">
+                            <i data-lucide="shopping-bag" class="w-5 h-5 mr-3 flex-shrink-0"></i>
+                            <span class="nav-label inline-block overflow-hidden transition-all duration-300">Penjualan</span>
+                        </div>
+                        <!-- Penjualan Submenu -->
+                        <div id="penjualan-submenu" class="pl-[52px] hidden text-gray-600 space-y-1">
+                            <div class="py-1 hover:underline cursor-pointer truncate whitespace-nowrap w-full">Manajemen Pesanan</div>
+                            <div class="py-1 hover:underline cursor-pointer truncate whitespace-nowrap w-full">Riwayat Penjualan</div>
+                            <div class="py-1 hover:underline cursor-pointer truncate whitespace-nowrap w-full">Pengembalian & Retur</div>
+                        </div>
+                    </div>
+
+                    <!-- Pengeluaran -->
+                    <div class="flex items-center px-3 py-2 hover:bg-indigo-50 rounded cursor-pointer text-rose-600">
+                        <i data-lucide="wallet" class="w-5 h-5 mr-3 flex-shrink-0"></i>
+                        <span class="nav-label inline-block overflow-hidden transition-all duration-300">Pengeluaran</span>
+                    </div>
+
+                    <!-- Produk -->
+                    <div class="flex items-center px-3 py-2 hover:bg-indigo-50 rounded cursor-pointer text-green-600">
+                        <i data-lucide="package" class="w-5 h-5 mr-3 flex-shrink-0"></i>
+                        <span class="nav-label inline-block overflow-hidden transition-all duration-300">Produk</span>
+                    </div>
+
+                    <!-- Stok Barang -->
+                    <div class="flex items-center px-3 py-2 hover:bg-indigo-50 rounded cursor-pointer text-blue-600">
+                        <i data-lucide="box" class="w-5 h-5 mr-3 flex-shrink-0"></i>
+                        <span class="nav-label inline-block overflow-hidden transition-all duration-300">Stok Barang</span>
+                    </div>
+
+                    <!-- Manajemen Pengguna -->
+                    <div>
+                        <div class="flex items-center px-3 py-2 hover:bg-indigo-50 rounded cursor-pointer text-purple-600" onclick="toggleSubmenu('pengguna-submenu')">
+                            <i data-lucide="users" class="w-5 h-5 mr-3 flex-shrink-0"></i>
+                            <span class="nav-label inline-block overflow-hidden transition-all duration-300">
+      Manajemen Pengguna
+    </span>
+                        </div>
+                        <!-- Pengguna Submenu -->
+                        <div id="pengguna-submenu" class="pl-[52px] hidden text-gray-600 space-y-1">
+                            <div class="py-1 hover:underline cursor-pointer truncate whitespace-nowrap w-full">
+                                Manajemen Tefa
+                            </div>
+                            <div class="py-1 hover:underline cursor-pointer truncate whitespace-nowrap w-full">
+                                Manajemen Sekolah
+                            </div>
+                            <div class="py-1 hover:underline cursor-pointer truncate whitespace-nowrap w-full">
+                                Mitra Kewirausahaan
+                            </div>
+                            <div class="py-1 hover:underline cursor-pointer truncate whitespace-nowrap w-full">
+                                Pelanggan
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Laporan -->
+                    <div>
+                        <div class="flex items-center px-3 py-2 hover:bg-indigo-50 rounded cursor-pointer text-indigo-600" onclick="toggleSubmenu('laporan-submenu')">
+                            <i data-lucide="file-text" class="w-5 h-5 mr-3 flex-shrink-0"></i>
+                            <span class="nav-label inline-block overflow-hidden transition-all duration-300">
+      Laporan
+    </span>
+                        </div>
+                        <div id="laporan-submenu" class="pl-[52px] hidden text-gray-500 space-y-1">
+                            <div class="py-1 hover:underline cursor-pointer truncate whitespace-nowrap w-full">Laporan Penjualan</div>
+                            <div class="py-1 hover:underline cursor-pointer truncate whitespace-nowrap w-full">Laporan Produk</div>
+                            <div class="py-1 hover:underline cursor-pointer truncate whitespace-nowrap w-full">Laporan Keuangan</div>
+                        </div>
+                    </div>
+
+                    <!-- Audit -->
+                    <div>
+                        <div class="flex items-center px-3 py-2 hover:bg-indigo-50 rounded cursor-pointer text-pink-600" onclick="toggleSubmenu('audit-submenu')">
+                            <i data-lucide="shield-check" class="w-5 h-5 mr-3 flex-shrink-0"></i>
+                            <span class="nav-label inline-block overflow-hidden transition-all duration-300">
+      Audit & Log
+    </span>
+                        </div>
+                        <div id="audit-submenu" class="pl-[52px] hidden text-gray-500 space-y-1">
+                            <div class="py-1 hover:underline cursor-pointer truncate whitespace-nowrap w-full">Log Transaksi</div>
+                            <div class="py-1 hover:underline cursor-pointer truncate whitespace-nowrap w-full">Riwayat Audit</div>
+                            <div class="py-1 hover:underline cursor-pointer truncate whitespace-nowrap w-full">Status Hash</div>
+                        </div>
+                    </div>
+
+
+                    <!-- Pengaturan -->
+                    <div>
+                        <div class="flex items-center px-3 py-2 hover:bg-indigo-50 rounded cursor-pointer text-gray-700" onclick="toggleSubmenu('pengaturan-submenu')">
+                            <i data-lucide="settings" class="w-5 h-5 mr-3 flex-shrink-0"></i>
+                            <span class="nav-label inline-block overflow-hidden transition-all duration-300">
+      Pengaturan
+    </span>
+                        </div>
+                        <div id="pengaturan-submenu" class="pl-[52px] hidden text-gray-500 space-y-1">
+                            <div class="py-1 hover:underline cursor-pointer truncate whitespace-nowrap w-full">Pengaturan Umum</div>
+                            <div class="py-1 hover:underline cursor-pointer truncate whitespace-nowrap w-full">Pengaturan Pembayaran</div>
+                            <div class="py-1 hover:underline cursor-pointer truncate whitespace-nowrap w-full">Notifikasi</div>
+                            <div class="py-1 hover:underline cursor-pointer truncate whitespace-nowrap w-full">Integrasi</div>
+                        </div>
+                    </div>
+
+
+                    <!-- Logout -->
+                    <div class="flex items-center px-3 py-2 text-red-600 hover:bg-red-50 rounded cursor-pointer">
+                        <i data-lucide="log-out" class="w-5 h-5 mr-3 flex-shrink-0"></i>
+                        <span class="nav-label inline-block overflow-hidden transition-all duration-300">Logout</span>
+                    </div>
+
+                </nav>
+            </div>
+        </aside>
+
+
+
+        <!-- Main Content -->
+        <div class="flex-1 overflow-x-auto">
+            <header class="bg-white pl-1 pr-4 py-2 flex justify-between items-center">
+                <h1 class="text-2xl font-bold text-indigo-600">Sistem Informasi TeFa MPLB</h1>
+                <div class="flex items-center space-x-3">
+                    <span class="text-gray-600">Halo, Admin</span>
+                    <img src="https://i.pravatar.cc/40?img=12" alt="User" class="rounded-full w-10 h-10" />
+                </div>
+            </header>
+
+
+            <!-- Bootstrap 5 CSS (CDN) -->
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+            <!-- Flatpickr -->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+            <!-- Bootstrap Icons -->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+            <main class="px-4 py-4 space-y-5 max-w-screen-xl mx-auto">
+                <!-- Metrik Cards -->
+                <!-- Rentang Tanggal dengan Bootstrap dan Flatpickr -->
+                <div class="sticky-top bg-white border-bottom py-2 px-1 mb-3">
+                    <div class="d-flex align-items-end gap-2 flex-wrap">
+                        <!-- Pilih Periode -->
+                        <div class="form-group mb-0" style="width: 260px;">
+                            <label for="filter-periode" class="form-label text-muted mb-1">Pilih Periode</label>
+                            <input type="text" id="filter-periode" class="form-control form-control-sm" placeholder="DD/MM/YYYY - DD/MM/YYYY">
+                        </div>
+
+                        <!-- Tombol Terapkan -->
+                        <div style="margin-top: 24px;">
+                            <!-- Ubah sesuai kebutuhan, misal 20px atau 22px -->
+                            <button id="btn-terapkan" class="btn btn-sm btn-primary">Terapkan</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white p-4 rounded-xl shadow hover:shadow-lg transition">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-500">Total Penjualan</p>
+                                <h3 class="text-2xl font-bold text-purple-600">Rp 150 Juta</h3>
+                            </div>
+                            <i data-lucide="shopping-bag" class="w-8 h-8 text-purple-500"></i>
+
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl shadow hover:shadow-lg transition">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-500">Total Pengeluaran</p>
+                                <h3 class="text-2xl font-bold text-pink-600">Rp 89 Juta</h3>
+                            </div>
+                            <i data-lucide="wallet" class="w-8 h-8 text-pink-500"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl shadow hover:shadow-lg transition">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-500">Total Pelanggan</p>
+                                <h3 class="text-2xl font-bold text-purple-600">560</h3>
+                            </div>
+                            <i data-lucide="users" class="w-8 h-8 text-purple-500"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl shadow hover:shadow-lg transition">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-500">Total Produk</p>
+                                <h3 class="text-2xl font-bold text-green-600">125</h3>
+                            </div>
+                            <i data-lucide="package" class="w-8 h-8 text-green-500"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Konten Lain -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+                    <div class="bg-white p-4 rounded-xl shadow">
+                        <h4 class="text-md font-semibold text-gray-700 mb-3 pl-1">Produk Hampir Habis</h4>
+                        <ul class="text-sm text-gray-600 space-y-2 mb-3 pl-1">
+                            <li class="flex justify-between items-center w-full">
+                                <span class="truncate">Cireng Isi</span>
+                                <span class="text-red-500 font-bold">3 pcs</span>
+                            </li>
+                            <li class="flex justify-between items-center w-full">
+                                <span class="truncate">Sambal Cumi</span>
+                                <span class="text-red-500 font-bold">5 pcs</span>
+                            </li>
+                            <li class="flex justify-between items-center w-full">
+                                <span class="truncate">Risol Mayo</span>
+                                <span class="text-red-500 font-bold">7 pcs</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-xl shadow">
+                        <h4 class="text-md font-semibold text-gray-700 mb-3 pl-1">Transaksi Terbaru</h4>
+                        <ul class="text-sm text-gray-600 space-y-2 pl-1">
+                            <li>INV00123 - <span class="text-green-600 font-semibold">Rp 250.000</span></li>
+                            <li>INV00124 - <span class="text-green-600 font-semibold">Rp 1.250.000</span></li>
+                            <li>INV00125 - <span class="text-green-600 font-semibold">Rp 875.000</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-xl shadow">
+                        <h4 class="text-md font-semibold text-gray-700 mb-3">Pertumbuhan Bulanan</h4>
+                        <div class="flex items-center justify-between">
+                            <p class="text-sm text-gray-500">Naik 12%</p>
+                            <span class="text-green-500 font-bold">▲</span>
+                        </div>
+                        <div class="mt-2 h-2 w-full bg-gray-200 rounded-full">
+                            <div class="h-full bg-green-500 rounded-full" style="width: 72%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-1">
+                        <!-- Grafik Penjualan -->
+                        <div class="bg-white p-6 rounded-xl shadow h-[320px] flex flex-col">
+                            <h4 class="text-md font-semibold text-gray-700 mb-2">Grafik Penjualan Bulanan</h4>
+                            <div class="flex-1 relative">
+                                <canvas id="chartPenjualan" class="absolute top-0 left-0 w-full h-full"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Grafik Kategori Produk -->
+                        <div class="bg-white p-6 rounded-xl shadow h-[320px] flex flex-col">
+                            <h4 class="text-md font-semibold text-gray-700 mb-2">Kategori Produk</h4>
+                            <div class="flex-1 relative">
+                                <canvas id="chartKategori" class="absolute top-0 left-0 w-full h-full"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+                        <div class="bg-white p-4 rounded-xl shadow">
+                            <h4 class="text-md font-semibold text-gray-700 mb-3">Status Server</h4>
+                            <div class="flex items-center space-x-2 text-green-600">
+                                <i data-lucide="server" class="w-5 h-5"></i>
+                                <span>Online - Respon 123ms</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl shadow">
+                            <h4 class="text-md font-semibold text-gray-700 mb-3 pl-1">Aktivitas Terakhir</h4>
+                            <ul class="text-sm text-gray-600 space-y-2 pl-1">
+                                <li>Login: Admin - 09:15 WIB</li>
+                                <li>Tambah Produk: Paru Balado - 08:50 WIB</li>
+                                <li>Update Harga: Cireng Isi - 08:30 WIB</li>
+                            </ul>
+                        </div>
+                    </div>
+            </main>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            const ctx = document.getElementById('chartPenjualan').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+                    datasets: [{
+                        label: 'Penjualan (Juta)',
+                        data: [25, 32, 28, 40, 35, 50, 40, 60, 70, 80, 75, 70],
+                        backgroundColor: '#6366f1',
+                        borderRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, // ← ini bikin ukuran tinggi/width dari parent div yang ngatur
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: value => `Rp ${value} Jt`
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script>
+            flatpickr("#filter-periode", {
+                mode: "range",
+                dateFormat: "Y-m-d",
+                locale: "id"
+            });
+        </script>
+
+
+        <script>
+            const ctxKategori = document.getElementById('chartKategori').getContext('2d');
+            new Chart(ctxKategori, {
+                type: 'pie',
+                data: {
+                    labels: ['Makanan', 'Minuman', 'Percetakan', 'ATK'],
+                    datasets: [{
+                        data: [40, 25, 20, 15],
+                        backgroundColor: ['#f87171', '#60a5fa', '#34d399', '#fbbf24'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        </script>
+
+
+        <script>
+            lucide.createIcons();
+
+            function toggleSubmenu(id) {
+                const submenu = document.getElementById(id);
+                submenu.classList.toggle('hidden');
+            }
+        </script>
+
+        <script>
+            flatpickr("#filter-periode", {
+                mode: "range",
+                dateFormat: "d/m/Y", // ← Format DD/MM/YYYY
+                locale: "id"
+            });
+
+            document.getElementById('btn-terapkan').addEventListener('click', function() {
+                const range = document.getElementById('filter-periode').value;
+
+                if (!range || !range.includes(" - ")) {
+                    alert("Silakan pilih periode terlebih dahulu.");
+                    return;
+                }
+
+                document.getElementById('output-periode').textContent = `Periode: ${range.replace(" - ", " s/d ")}`;
+            });
+        </script>
+
+
+
+
+</body>
+
+</html>
